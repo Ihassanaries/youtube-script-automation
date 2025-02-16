@@ -3,11 +3,11 @@ import json
 import streamlit as st
 from google.oauth2.service_account import Credentials
 
-# Load Google credentials from Streamlit Secrets
-service_account_info = json.loads(st.secrets["GOOGLE_CREDENTIALS"])
-creds = Credentials.from_service_account_info(service_account_info)
+# Convert TOML dictionary to JSON string, then load as JSON
+service_account_info = json.loads(json.dumps(st.secrets["GOOGLE_CREDENTIALS"]))
 
 # Authenticate with Google Sheets API
+creds = Credentials.from_service_account_info(service_account_info)
 client = gspread.authorize(creds)
 
 # Open Google Sheets
