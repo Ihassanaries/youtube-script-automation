@@ -2,11 +2,13 @@ import gspread
 import streamlit as st
 from google.oauth2.service_account import Credentials
 
-# Directly use the Streamlit secret (no need for json.dumps or json.loads)
-service_account_info = st.secrets["GOOGLE_CREDENTIALS"]
+# Required Google Sheets API Scopes
+SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
 
 # Authenticate with Google Sheets API
-creds = Credentials.from_service_account_info(service_account_info)
+service_account_info = st.secrets["GOOGLE_CREDENTIALS"]
+creds = Credentials.from_service_account_info(service_account_info, scopes=SCOPES)
+
 client = gspread.authorize(creds)
 
 # Open Google Sheets
